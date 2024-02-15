@@ -1,0 +1,1 @@
+/usr/bin/arm-none-eabi-g++ -nostartfiles -specs=nano.specs -specs=nosys.specs -lc -lm -lnosys -Wl,--gc-sections -mcpu=cortex-m4 -mthumb -mfpu=fpv4-sp-d16 -mfloat-abi=hard -T/home/stud133/Projects/mk_24/build/_deps/libopencm3_repo-src/lib/generated.stm32f303vc.ld CMakeFiles/mk_23.dir/src/main.cpp.obj -o mk_23  _deps/libopencm3_repo-src/lib/libopencm3_stm32f3.a 
