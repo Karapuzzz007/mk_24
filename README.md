@@ -17,3 +17,7 @@
     cmake --build build     
 Прошивка МК:
     cmake --install build 
+
+Интерфейс UART
+    Зеленый - RxD
+    Белый - TxD

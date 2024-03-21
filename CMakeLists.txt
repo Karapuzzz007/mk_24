@@ -13,7 +13,11 @@ include(libopencm3)
 #================================================================================
 add_executable(${PROJECT_NAME}
      src/main.cpp
+     ring_buf/Ring_buf.cpp
 )
+
+target_include_directories( ${PROJECT_NAME}
+PRIVATE ${CMAKE_CURRENT_LIST_DIR} )
 
 target_link_libraries(${PROJECT_NAME}
      PRIVATE libopencm3
