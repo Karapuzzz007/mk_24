@@ -87,6 +87,7 @@ uint8_t res_str[7];
 
 blocking_delay_parrots();
 gpio_toggle(GPIOE, GPIO9);
+usart_send_blocking(USART2, res);
 }
 
 int main (){
