@@ -10,6 +10,34 @@ uint8_t str[20]{'a'}; //?
 
 //Ring_buffer buf; 
 
+static void my_usart_print_int( int16_t value)
+{
+	int8_t i;
+	int8_t nr_digits = 0;
+	char buffer[25];
+
+	if (value < 0) {
+		usart_send_blocking(USART2, '-');
+		value = value * -1;
+	}
+
+	if (value == 0) {
+		usart_send_blocking(USART2, '0');
+	}
+
+	while (value > 0) {
+		buffer[nr_digits++] = "0123456789"[value % 10];
+		value /= 10;
+	}
+
+	for (i = nr_digits-1; i >= 0; i--) {
+		usart_send_blocking(USART2, buffer[i]);
+	}
+
+	usart_send_blocking(USART2, '\r');
+	usart_send_blocking(USART2, '\n');
+}
+
 void indicate_adc_val(uint32_t val){
 if (val > 2048) gpio_set(GPIOE, GPIO11);
 else gpio_clear(GPIOE, GPIO11);
@@ -80,14 +108,15 @@ void setup () {
 }
 
 void loop(){
-uint32_t res = start_wait_and_read_adc();
-indicate_adc_val(res);
+uint16_t temp = start_wait_and_read_adc();
+indicate_adc_val(temp);
 
 uint8_t res_str[7];
 
 blocking_delay_parrots();
 gpio_toggle(GPIOE, GPIO9);
-usart_send_blocking(USART2, res);
+my_usart_print_int(temp);
+
 }
 
 int main (){
