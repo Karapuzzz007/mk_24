@@ -93,9 +93,6 @@ usart_set_parity(USART2, USART_PARITY_NONE);              // Контроль ч
 usart_set_mode(USART2, USART_MODE_TX_RX);                 // Режим работы ПУ
 usart_set_flow_control(USART2, USART_FLOWCONTROL_NONE);   // Управление процессом передачи сообщений
 
-//usart_enable_rx_interrupt(USART2);
-//nvic_enable_irq(NVIC_USART2_EXTI26_IRQ);
-
 usart_enable(USART2);                                     // Включение ПУ
 }
 
