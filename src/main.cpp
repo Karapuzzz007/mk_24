@@ -27,9 +27,6 @@ static void my_usart_print_int( int16_t value)
 	for (i = nr_digits-1; i >= 0; i--) {
 		usart_send_blocking(USART2, buffer[i]);
 	}
-
-	usart_send_blocking(USART2, '\r');
-	usart_send_blocking(USART2, '\n');
 }
 
 void indicate_adc_val(uint32_t val){
@@ -113,7 +110,6 @@ while(desyat>0){
     t++;
 }
 t--;
-uint8_t res_str[7];
 
 blocking_delay_parrots();
 gpio_toggle(GPIOE, GPIO9);
