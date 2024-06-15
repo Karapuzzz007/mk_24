@@ -1,14 +1,8 @@
-#include "ring_buf/Ring_buf.hpp"
-
 #include <libopencm3/stm32/rcc.h>
 #include <libopencm3/stm32/gpio.h>
 #include <libopencm3/stm32/adc.h>
 #include <libopencm3/cm3/nvic.h>
 #include <libopencm3/stm32/usart.h>
-
-uint8_t str[20]{'a'}; //?
-
-//Ring_buffer buf; 
 
 static void my_usart_print_int( int16_t value)
 {
@@ -74,14 +68,11 @@ void setup_ADC () {
 }
 
 void setup_USART (){
-    // Интерфейс U(S)ART с внешним миром
+// Интерфейс U(S)ART с внешним миром
 rcc_periph_clock_enable(RCC_GPIOA);                           // Разморозка порта ввода/вывода
-//rcc_periph_clock_enable(RCC_GPIOE);
 
 gpio_mode_setup(GPIOA, GPIO_MODE_AF, GPIO_PUPD_NONE, GPIO2 | GPIO3);  // Режим альтернативной функции
 gpio_set_af(GPIOA,GPIO_AF7, GPIO2 | GPIO3);                           // Альтернативная функция (выбор по номеру) PA9 --- Tx, PA10 --- Rx.
-
-//gpio_mode_setup(GPIOE, GPIO_MODE_OUTPUT, GPIO_PUPD_NONE, GPIO9|GPIO11);
 
 rcc_periph_clock_enable(RCC_USART2);                      // Разморозка ПУ
 
@@ -108,12 +99,34 @@ void loop(){
 uint16_t temp = start_wait_and_read_adc();
 indicate_adc_val(temp);
 
+int i,dvoich,desyat;
+i = 2;
+int dvo[200];
+int t =0;
+
+desyat = temp;
+
+while(desyat>0){
+    dvoich= desyat%i;
+    dvo[t] =dvoich;
+    desyat/=i;
+    t++;
+}
+t--;
 uint8_t res_str[7];
 
 blocking_delay_parrots();
 gpio_toggle(GPIOE, GPIO9);
 my_usart_print_int(temp);
-
+usart_send_blocking(USART2, '\r');
+usart_send_blocking(USART2, '\n');
+while(t>=0)
+    {
+        my_usart_print_int(dvo[t]);
+        t--;
+    }
+usart_send_blocking(USART2, '\r');
+usart_send_blocking(USART2, '\n');
 }
 
 int main (){

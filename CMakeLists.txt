@@ -14,7 +14,6 @@ include(libopencm3)
 #================================================================================
 add_executable(${PROJECT_NAME}
      src/main.cpp
-     ring_buf/Ring_buf.cpp
 )
 
 target_include_directories( ${PROJECT_NAME}
